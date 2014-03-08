@@ -8,6 +8,26 @@ import akka.actor.PoisonPill
 import java.util.UUID
 import scala.util.control.Exception._
 import scala.language.implicitConversions
+import spray.json.DefaultJsonProtocol
+import spray.json.RootJsonFormat
+import spray.json.JsObject
+import spray.json.JsString
+import spray.json.JsValue
+import spray.json.DeserializationException
+
+object TodoJsonProtocol extends DefaultJsonProtocol {
+  
+  implicit object TodoIdFormat extends RootJsonFormat[TodoId] {
+    def write(c: TodoId) = JsObject("id" -> JsString(c.uuid.toString))
+    def read(value: JsValue) = value.asJsObject.getFields("id") match {
+      case Seq(JsString(id)) => TodoId.fromString(id).getOrElse(throw new DeserializationException(s"Invalid id: $id"))
+      case _ => throw new DeserializationException(s"Not a TodoId: ${value.prettyPrint}")
+    }
+  } 
+  
+  implicit val todoContentFormat = jsonFormat2(TodoContent.apply)
+  implicit val todoFormat = jsonFormat2(Todo.apply)
+}
 
 case class Todo(id: TodoId, content: TodoContent)
 case class TodoContent(title: String, completed: Boolean)
@@ -28,6 +48,16 @@ object TodoId {
 }
 
 object TodoRepositoryProcessor {
+  
+  object EventProtocol extends DefaultJsonProtocol {
+    import TodoJsonProtocol._
+    
+    implicit val todoAddedFormat = jsonFormat2(TodoAdded.apply)
+    implicit val todoChangedFormat = jsonFormat2(TodoChanged.apply)
+    implicit val todoDeletedFormat = jsonFormat1(TodoDeleted.apply)
+    
+    implicit val processorStateFormat = jsonFormat2(ProcessorState.apply)
+  }
   
   sealed trait CommandMessage
   case class Create(newTodo: Todo) extends CommandMessage

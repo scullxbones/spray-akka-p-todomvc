@@ -55,10 +55,12 @@ trait TodoService extends HttpService {
   import TodoId._
   import TodoDto._
   import TodoRepositoryProcessor._
+  
+  import scala.concurrent.duration._
 
   val defaultPageSize: Int
   val repository: TodoRepositoryQuery with TodoRepositoryCommand
-  implicit val timeout = Timeout(3000)
+  implicit val timeout = Timeout(3.seconds)
 
   def logAndFail(ctx: RequestContext, e: Throwable)(implicit log: LoggingContext) {
     log.error(e, "Request {} could not be handled normally", ctx.request)
@@ -145,8 +147,7 @@ trait TodoService extends HttpService {
                 }
               }
           }
-      } ~
-        getFromResourceDirectory("public")
-    }
+      } 
+    } ~ getFromResourceDirectory("public")
   }
 }

@@ -20,7 +20,7 @@ object Boot extends App {
   val port = Option(System.getenv("PORT")).getOrElse("8080").toInt
 
   // create child repo actor
-  val repoActor = system.actorOf(Props[TodoRepositoryProcessor],"todo-repository")
+  val repoActor = system.actorOf(Props(new TodoRepositoryProcessor),"todo-repository")
   
   val repos = new TodoRepositoryImpl(repoActor,Timeout(3.seconds))
   

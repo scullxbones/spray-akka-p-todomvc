@@ -49,7 +49,7 @@ class TodoRepositoryActorSpec extends TodoBaseTest with BeforeAndAfterAll {
         probe.reply(GetResponse(Some(one)))
         val result = Await.result(actual, 3.seconds)
         result.todo match {
-          case Some(todo) => Some(todoId.toString) should equal(todo.id)
+          case Some(todo) => Some(todoId.uuid.toString) should equal(todo.id)
           case None => fail("Expected to find todo")
         }
     }}

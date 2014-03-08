@@ -23,17 +23,17 @@ object SprayakkaTodomvcBuild extends Build {
 		  "spray nightlies repo" at "http://nightlies.spray.io"
 		),
       libraryDependencies ++= Seq(
-		  "com.typesafe.akka" %% "akka-slf4j" % "2.3.0-RC4",
-		  "com.typesafe.akka" %% "akka-persistence-experimental" % "2.3.0-RC4",
-		  "com.github.scullxbones" %% "akka-persistence-mongo-casbah" % "0.0.2",
-		  "io.spray" % "spray-can" % "1.3-RC4",
-		  "io.spray" % "spray-routing" % "1.3-RC4",
+		  "com.typesafe.akka" %% "akka-slf4j" % "2.3.0",
+		  "com.typesafe.akka" %% "akka-persistence-experimental" % "2.3.0",
+		  "com.github.scullxbones" %% "akka-persistence-mongo-casbah" % "0.0.4",
+		  "io.spray" % "spray-can" % "1.3.0",
+		  "io.spray" % "spray-routing" % "1.3.0",
 		  "io.spray" %%  "spray-json" % "1.2.5",
 		  "ch.qos.logback" % "logback-classic" % "1.0.7",
-		  "com.typesafe.akka" %% "akka-testkit" % "2.3.0-RC4" % "test",
+		  "com.typesafe.akka" %% "akka-testkit" % "2.3.0" % "test",
 		  "org.scalatest" %% "scalatest" % "2.0" % "test",
 		  "org.mockito" % "mockito-all" % "1.9.5" % "test",
-		  "io.spray" % "spray-testkit" % "1.3-RC4" % "test",
+		  "io.spray" % "spray-testkit" % "1.3.0" % "test",
 		  "junit" % "junit" % "4.11" % "test"
       )
     )
